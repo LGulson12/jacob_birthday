@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Happy Birthday Jacob 🎉</title>
+  <style>
+    :root{--bg:#0f1724;--card:#071028;--accent:#f6c90e}
+    html,body{height:100%;margin:0;font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;color:#e6eef8;background:linear-gradient(180deg,#071428 0%, #071028 60%)}
+    .wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:32px}
+    .card{width:960px;max-width:96%;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.05));border-radius:18px;padding:20px;box-shadow:0 8px 30px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03)}
+    header{display:flex;gap:12px;align-items:center}
+    .gifs img{height:72px;border-radius:12px;box-shadow:0 6px 18px rgba(0,0,0,0.6)}
+    h1{margin:0;font-size:28px}
+    p.lead{opacity:0.85;margin:6px 0 16px}
+
+    .main{display:flex;gap:20px;align-items:center}
+    .left{flex:0 0 360px;display:flex;flex-direction:column;align-items:center;gap:12px}
+    .face-wrap{position:relative;width:320px;height:320px;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;background:conic-gradient(from 180deg at 50% 50%, rgba(246,201,14,0.06), rgba(255,255,255,0.02));border:6px solid rgba(255,255,255,0.03)}
+    .face{width:80%;height:80%;object-fit:cover;border-radius:50%;transition:transform .15s ease,outline .12s;cursor:grab}
+    .face:active{cursor:grabbing}
+
+    /* party hat (simple CSS triangle) */
+    .hat{position:absolute;left:50%;transform:translateX(-50%) rotate(8deg);top:18px;width:0;height:0;border-left:32px solid transparent;border-right:32px solid transparent;border-bottom:80px solid var(--accent);display:none;filter:drop-shadow(0 6px 8px rgba(0,0,0,0.45))}
+    .hat .pom{position:absolute;left:50%;transform:translate(-50%,-120%);width:18px;height:18px;border-radius:50%;background:#ffefc2;box-shadow:0 2px 6px rgba(0,0,0,0.35)}
+
+    .controls{display:flex;gap:8px;flex-wrap:wrap}
+    button, .file-label{background:transparent;border:1px solid rgba(255,255,255,0.06);color:#e8f3ff;padding:8px 10px;border-radius:8px;cursor:pointer}
+    button:hover, .file-label:hover{background:rgba(255,255,255,0.02)}
+
+    .right{flex:1;min-width:240px}
+    .message{background:rgba(255,255,255,0.02);padding:12px;border-radius:12px;min-height:180px}
+    .message h2{margin:0 0 8px}
+    .message textarea{width:100%;height:96px;background:transparent;border:1px dashed rgba(255,255,255,0.04);padding:8px;color:inherit;border-radius:8px}
+
+    .small{font-size:13px;color:rgba(255,255,255,0.6)}
+
+    /* confetti canvas covers entire card */
+    #confettiCanvas{position:absolute;left:0;top:0;pointer-events:none}
+
+    footer{margin-top:14px;display:flex;justify-content:space-between;align-items:center}
+    a.btn-link{font-size:14px;color:var(--accent);text-decoration:none}
+
+    @media(max-width:720px){.main{flex-direction:column}.left{order:1}.right{order:2}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card" id="card">
+      <canvas id="confettiCanvas"></canvas>
+      <header>
+        <div class="gifs">
+          <!-- Replace these GIF URLs with any gifs you like -->
+          <img id="gif1" src="https://media.giphy.com/media/3o6ZsYlb8a9hYxDkZO/giphy.gif" alt="party gif 1">
+          <img id="gif2" src="https://media.giphy.com/media/l0HlQ7LRalhE9xQWk/giphy.gif" alt="party gif 2">
+        </div>
+        <div style="margin-left:8px">
+          <h1>Happy Birthday, Jacob! 🎂</h1>
+          <p class="lead">Click Jacob's face to toggle a party hat. Drag to move it around. Upload your own photo below.</p>
+        </div>
+      </header>
+
+      <div class="main">
+        <div class="left">
+          <div class="face-wrap" id="faceWrap">
+            <div class="hat" id="hat"><div class="pom"></div></div>
+            <img id="face" class="face" src="https://images.unsplash.com/photo-1599566150163-29194dcaad36?auto=format&fit=crop&w=600&q=60" alt="Jacob's face placeholder">
+          </div>
+
+          <div class="controls">
+            <label class="file-label">
+              📷 Upload a face
+              <input id="fileInput" type="file" accept="image/*" style="display:none">
+            </label>
+            <button id="toggleHat">🎩 Toggle Hat</button>
+            <button id="confettiBtn">✨ Throw Confetti</button>
+            <button id="downloadBtn">⬇️ Download Card (PNG)</button>
+          </div>
+          <p class="small">Tip: Upload Jacob's photo, then click and drag the image to reposition. Use the "Throw Confetti" button for fun.</p>
+        </div>
+
+        <div class="right">
+          <div class="message">
+            <h2>Write a message</h2>
+            <textarea id="message" placeholder="Type a birthday message to Jacob...">Happy birthday Jacob! Hope your day is awesome — Luke</textarea>
+            <div style="margin-top:8px;display:flex;gap:8px">
+              <button id="applyMessage">Apply Message</button>
+              <button id="clearMessage">Clear</button>
+            </div>
+          </div>
+
+          <div style="margin-top:12px">
+            <p class="small">This single-file page is ready to drop into a GitHub repo as <code>index.html</code>. Host with GitHub Pages (Settings → Pages → branch: main / root) to share a link.</p>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="small">Made with 🎉</div>
+        <a class="btn-link" id="viewRaw">View raw (open file)</a>
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    // --- Basic UI behavior ---
+    const face = document.getElementById('face');
+    const hat = document.getElementById('hat');
+    const toggleHatBtn = document.getElementById('toggleHat');
+    const fileInput = document.getElementById('fileInput');
+    const confettiBtn = document.getElementById('confettiBtn');
+    const confettiCanvas = document.getElementById('confettiCanvas');
+    const card = document.getElementById('card');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const applyMessage = document.getElementById('applyMessage');
+    const messageEl = document.getElementById('message');
+
+    // Make confetti canvas same size as card
+    function resizeCanvas(){
+      confettiCanvas.width = card.clientWidth;
+      confettiCanvas.height = card.clientHeight;
+      confettiCanvas.style.width = card.clientWidth+'px';
+      confettiCanvas.style.height = card.clientHeight+'px';
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Toggle hat visibility
+    let hatOn = false;
+    toggleHatBtn.addEventListener('click', ()=>{
+      hatOn = !hatOn;
+      hat.style.display = hatOn? 'block':'none';
+    });
+
+    // Click face to toggle hat as well
+    face.addEventListener('click', ()=>{
+      hatOn = !hatOn;
+      hat.style.display = hatOn? 'block':'none';
+    });
+
+    // Allow image upload and preview
+    fileInput.addEventListener('change', (e)=>{
+      const f = e.target.files[0];
+      if(!f) return;
+      const url = URL.createObjectURL(f);
+      face.src = url;
+    });
+
+    // Make face draggable inside its wrap
+    (function makeDraggable(){
+      const wrap = document.getElementById('faceWrap');
+      let isDown = false, startX=0, startY=0, imgX=0, imgY=0;
+      face.style.position='relative';
+      face.style.left='0px';
+      face.style.top='0px';
+      wrap.addEventListener('pointerdown', (ev)=>{
+        isDown = true; startX = ev.clientX; startY = ev.clientY;
+        imgX = parseFloat(face.style.left) || 0; imgY = parseFloat(face.style.top) || 0;
+        wrap.setPointerCapture(ev.pointerId);
+      });
+      window.addEventListener('pointermove', (ev)=>{
+        if(!isDown) return;
+        const dx = ev.clientX - startX; const dy = ev.clientY - startY;
+        face.style.left = (imgX + dx) + 'px';
+        face.style.top = (imgY + dy) + 'px';
+      });
+      window.addEventListener('pointerup', ()=>{isDown=false;});
+    })();
+
+    // Tiny parallax on mousemove over face-wrap
+    document.getElementById('faceWrap').addEventListener('mousemove', (e)=>{
+      const r = e.currentTarget.getBoundingClientRect();
+      const cx = r.left + r.width/2; const cy = r.top + r.height/2;
+      const mx = (e.clientX - cx)/r.width; const my = (e.clientY - cy)/r.height;
+      face.style.transform = `translate(${mx*10}px, ${my*10}px) scale(1.02)`;
+      hat.style.transform = `translateX(-50%) translate(${mx*5}px, ${my*6}px) rotate(8deg)`;
+    });
+    document.getElementById('faceWrap').addEventListener('mouseleave', ()=>{face.style.transform=''; hat.style.transform='translateX(-50%) rotate(8deg)'});
+
+    // Simple confetti (lightweight)
+    confettiBtn.addEventListener('click', ()=>{
+      launchConfetti();
+    });
+
+    function launchConfetti(){
+      const ctx = confettiCanvas.getContext('2d');
+      const particles = [];
+      const W = confettiCanvas.width; const H = confettiCanvas.height;
+      for(let i=0;i<120;i++){
+        particles.push({x: Math.random()*W, y: -20 - Math.random()*H, vx:(Math.random()-0.5)*2, vy:2+Math.random()*4, r:4+Math.random()*8, col: `hsl(${Math.random()*360} 80% 60%)`, rot:Math.random()*360, vr:(Math.random()-0.5)*8});
+      }
+      let t=0; const ani = setInterval(()=>{
+        t++; ctx.clearRect(0,0,W,H);
+        particles.forEach(p=>{
+          p.x += p.vx; p.y += p.vy; p.vy += 0.03; p.rot += p.vr;
+          ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(p.rot*Math.PI/180);
+          ctx.fillStyle = p.col; ctx.fillRect(-p.r/2,-p.r/2,p.r,p.r*0.6);
+          ctx.restore();
+        });
+        if(t>180){ clearInterval(ani); ctx.clearRect(0,0,W,H);} 
+      },16);
+    }
+
+    // Download a PNG snapshot of the card (note: external gifs may not be captured depending on browser)
+    downloadBtn.addEventListener('click', async ()=>{
+      // draw card into an offscreen canvas
+      const scale = 2;
+      const w = card.clientWidth*scale; const h = card.clientHeight*scale;
+      const c = document.createElement('canvas'); c.width=w; c.height=h; const ctx = c.getContext('2d');
+      // white background
+      ctx.fillStyle = '#071428'; ctx.fillRect(0,0,w,h);
+      // use html2canvas style painting but in a very simple way: draw face and message/gifs
+      // draw face
+      const faceImg = await createImageBitmap(face);
+      const fw = faceImg.width; const fh = faceImg.height;
+      const destW = (face.clientWidth/ card.clientWidth)*w * 0.8;
+      const dx = (w*0.08) + (w*0.05);
+      ctx.save();
+      // face circle mask
+      ctx.beginPath(); ctx.arc(dx + destW/2, h*0.25, destW/2, 0, Math.PI*2); ctx.closePath(); ctx.clip();
+      ctx.drawImage(faceImg, dx, h*0.25 - destW/2, destW, destW);
+      ctx.restore();
+      // message
+      ctx.fillStyle = '#e6eef8'; ctx.font = `${20*scale}px sans-serif`;
+      const text = document.getElementById('message').value || '';
+      wrapText(ctx, text, w*0.5, h*0.15, w*0.42, 28*scale);
+
+      const blob = await new Promise(res=>c.toBlob(res));
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href=url; a.download='jacob-bday-card.png'; a.click(); URL.revokeObjectURL(url);
+    });
+
+    function wrapText(ctx, text, x, y, maxWidth, lineHeight){
+      const words = text.split(' '); let line=''; let yy = y;
+      for(let n=0;n<words.length;n++){
+        const testLine = line + words[n] + ' ';
+        const metrics = ctx.measureText(testLine);
+        if(metrics.width > maxWidth && n>0){ ctx.fillText(line, x, yy); line = words[n] + ' '; yy += lineHeight; } else { line = testLine; }
+      }
+      ctx.fillText(line, x, yy);
+    }
+
+    // small helper link (show raw file) — only useful when viewing locally or on gh-pages
+    document.getElementById('viewRaw').addEventListener('click', ()=>{ alert('Open index.html directly (if hosted on GitHub Pages open the repo URL). If you upload this file to a repo named jake-bday and enable Pages it will be viewable at https://<your-username>.github.io/<repo>/'); });
+
+    // Apply message button: draws the message into the visible card (simple text insertion)
+    applyMessage.addEventListener('click', ()=>{
+      // overlay a small text element onto the card (we'll create one)
+      let overlay = document.getElementById('msgOverlay');
+      if(!overlay){ overlay = document.createElement('div'); overlay.id='msgOverlay'; overlay.style.position='absolute'; overlay.style.right='28px'; overlay.style.top='140px'; overlay.style.maxWidth='44%'; overlay.style.color='#e8f3ff'; overlay.style.fontSize='16px'; overlay.style.padding='8px'; overlay.style.background='linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005))'; overlay.style.borderRadius='8px'; card.appendChild(overlay);} 
+      overlay.textContent = messageEl.value;
+    });
+
+  </script>
+</body>
+</html>
